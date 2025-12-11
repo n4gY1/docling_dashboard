@@ -1,0 +1,22 @@
+{% extends 'base/main.html' %}
+{% block title %}- INDEX{% endblock title %}
+{% block content %}
+<div class="container text-center p-5">
+    <img src="/static/img/img.png" alt="ai hero picture" style="max-width:300px;max-height:300px;width:100%;height:100%;border-radius:100%;margin:0px auto;">
+    <hr>
+    <p class="text-warning">
+        Upload ppt, pdf, docx files as knowledge material and in the background, documents that can be easily recognized by AI are created. However, this takes time...
+    </p>
+    <hr>
+</div>
+
+<form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data" class="form-control bg-dark text-light">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="files" class="form-label">Multiple files input example</label>
+        <input class="form-control bg-dark text-light" type="file" id="files" name="files" multiple>
+        <button type="submit" class="w-100 btn btn-warning my-3">Generate</button>
+    </div>
+</form>
+
+{% endblock content %}

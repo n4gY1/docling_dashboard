@@ -1,0 +1,61 @@
+:root {
+    --dark-color: #020202;
+    --medium-color: #0F0F0F;
+    --medium-color-transparent: #0F0F0FCC;
+    --light-color: #EEE;
+    --primary-color: #F39F5A;
+    --secondary-color: #888;
+}
+html {
+    font-size:14px;
+    min-height:100vh;
+    padding-top:50px;
+}
+html,body {
+    background-color: var(--dark-color) !important;
+    color: var(--light-color) !important;
+}
+a {
+    text-decoration: none !important;
+}
+
+
+.custom-navbar {
+  background-color: rgba(0, 0, 0, 0.65); /* közel fekete, 10%-os áttetszőség */
+  transition: background-color 0.3s;
+}
+
+.custom-navbar .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.custom-navbar .nav-link:hover {
+  background-color: rgba(0, 0, 0, 1); /* ne legyen átlátszó hoverkor */
+  color: #fff;
+}
+
+
+
+tags-checkbox {
+    font-size:200px !important;
+}
+
+
+@keyframes show-toast {
+    0% {bottom:-100px}
+    20% {bottom:50px}
+    80% {bottom:50px}
+    100% {bottom:-100%}
+}
+
+
+.show-notification {
+    position:fixed !important;
+    bottom:20px;
+    right:20px;
+    animation-name:show-toast;
+    animation-duration:15s;
+    animation-fill-mode: forwards;
+}
+

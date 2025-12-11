@@ -1,0 +1,17 @@
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == "error" %}
+        <div class="alert bg-danger text-light show-notification" role="alert" style="z-index:99999">
+            <strong>{{message}}</strong>
+        </div>
+        {% elif message.tags == "warning" %}
+        <div class="alert bg-warning text-light show-notification" role="alert" style="z-index:99999">
+            <strong>{{message}}</strong>
+        </div>
+        {% else %}
+        <div class="alert bg-success show-notification" role="alert" style="z-index:99999">
+            <strong class="text-light">{{message}}</strong>
+        </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}

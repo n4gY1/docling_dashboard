@@ -1,0 +1,5 @@
+docling
+#ha nincs cuda driver csak cpu
+#pip uninstall torch torchvision torchaudio -y
+#pip install torch --index-url https://download.pytorch.org/whl/cpu
+#vagy conda install pytorch cpuonly -c pytorch
