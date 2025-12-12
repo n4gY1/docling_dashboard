@@ -68,3 +68,18 @@ def download_rag_view(request,pk):
     file_handle = open(download_url,"rb")
     print(f"[+] downloaded path : {download_url}")
     return FileResponse(file_handle,as_attachment=True)
+
+def delete_rag_view(request,pk):
+    rag = GeneratedRag.objects.get(pk=pk)
+    if os.path.exists(rag.path):
+        os.remove(rag.path)
+    tmp_path = "/static/documents/" + rag.filename
+    if os.path.exists(tmp_path):
+        os.remove(tmp_path)
+    rag.delete()
+
+    messages.success(request, "RAG AND temp File deleted successfully.")
+    return redirect("list_rag")
+
+
+

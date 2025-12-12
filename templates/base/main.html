@@ -7,10 +7,11 @@
     <title>E-RMI {% block title %}{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/min.css' %}">
+      <link rel="icon" type="image/x-icon" href="{% static 'img/img.png' %}">
   </head>
   <body>
     {% include 'includes/navbar.html' %}
-    <div class="container">
+    <div class="container" style="min-height:100vh">
         {% include 'includes/messages.html' %}
 
         {% block content %}
