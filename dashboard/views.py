@@ -19,7 +19,7 @@ def save_file(data,filename):
 
     threading.Thread(
         target=generate_rag,
-        args=(filename),
+        args=(filename,),
         daemon=True
     ).start()
     #generate_rag(filename=filename)
