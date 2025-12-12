@@ -2,33 +2,25 @@
 {% block title %}- INDEX{% endblock title %}
 {% block content %}
 
-
-<div class="container text-center p-5">
-    <img src="/static/img/img.png" alt="ai hero picture" style="max-width:300px;max-height:300px;width:100%;height:100%;border-radius:100%;margin:0px auto;">
-    <hr>
-    <p class="text-warning">
-        Upload ppt, pdf, docx files as knowledge material and in the background, documents that can be easily recognized by AI are created. However, this takes time...
-    </p>
-    <hr>
-</div>
-
+{% include 'includes/main_banner.html' %}
 
 <div class="row">
 {% for rag in rags %}
-    <div class="col-lg-3 col-md-4 col-xs-6 my-2">
-        <div class="card bg-dark text-light">
-            <h4 class="card-header"><a href="{% url 'download_rag' rag.pk %}" class="text-warning no-decoration" >{{rag.filename}}</a> </h4>
+    <div class="col-lg-3 col-md-4 col-xs-6 my-2 d-flex align-items-stretch">
+        <div class="card bg-dark text-light w-100">
+            <h5 class="card-header"><a href="{% url 'download_rag' rag.pk %}" class="text-warning no-decoration" title="Download -> {{rag.filename}}" >{{rag.filename}}</a> </h5>
             <div class="card-body">
                 <p class="card-text text-secondary">
                     {{rag.content}}
                 </p>
-                <p class="card-text text-light" style="font-size:0.7rem">
-                    Created: {{rag.created_at}}<br>
-                    Lines: {{rag.lines}}<br>
-                    Finished: {{rag.finished_at}}
+                <p class="card-text text-light" style="font-size:0.82rem">
+                    Created: <span class="text-secondary">{{rag.created_at}}</span><br>
+                    Lines: <span class="text-warning">{{rag.lines}} lines</span><br>
+                    Finished: <span class="text-secondary">{{rag.finished_at}}</span>
                 </p>
-                <p class="card-title">{{rag.created_at | timesince}}</p>
+
             </div>
+            <div class="card-footer text-secondary">{{rag.created_at | timesince}}</div>
         </div>
     </div>
 {% empty %}
@@ -44,9 +36,27 @@
     <hr>
     <h3 class="text-center text-danger">Generated RAG files is pending.... </h3>
     <hr>
-    {% for rag in rags_not_success %}
-        {{rag.created_at}}
-    {% endfor %}
+    <div class="row">
+        {% for rag in rags_not_success %}
+            <div class="col-lg-3 col-md-4 col-xs-6 my-2 d-flex align-items-stretch">
+                <div class="card bg-dark text-light w-100">
+                    <h5 class="card-header"><a href="{% url 'download_rag' rag.pk %}" class="text-warning no-decoration" >{{rag.filename}}</a> </h5>
+                    <div class="card-body">
+                        <p class="card-text text-secondary">
+                            {{rag.content}}
+                        </p>
+                        <p class="card-text text-light" style="font-size:0.82rem">
+                            Created: <span class="text-secondary">{{rag.created_at}}</span><br>
+                            Lines: <span class="text-warning">{{rag.lines}} lines</span><br>
+                            Errors: <span class="text-warning">{{rag.errors}}</span>
+                        </p>
+
+                    </div>
+                    <div class="card-footer text-secondary">{{rag.created_at | timesince}}</div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endif %}
 
 {% endblock content %}

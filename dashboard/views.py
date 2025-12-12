@@ -1,58 +1,12 @@
-import datetime
+import multiprocessing
 import os
 import threading
 
 from django.contrib import messages
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import render, redirect
-from docling.document_converter import DocumentConverter
-
 from dashboard.models import GeneratedRag
-
-documents_path = "static/documents/"
-
-def save_file(data,filename):
-    p = documents_path + filename
-    with open (p,"wb+") as document:
-        for chunk in data.chunks():
-            document.write(chunk)
-
-    threading.Thread(
-        target=generate_rag,
-        args=(filename,),
-        daemon=True
-    ).start()
-    #generate_rag(filename=filename)
-
-def generate_rag(filename):
-    #print("generate RAG",file)
-    source = documents_path + filename
-    converter = DocumentConverter()
-    result = converter.convert(source)
-    result_txt = result.document.export_to_markdown()
-
-    rag_filename = documents_path + "RAG/" + filename + ".md"
-    with open (rag_filename,"w",encoding="utf-8") as document:
-        document.write(result_txt)
-    print(f"[+] {rag_filename} RAG is saved")
-
-    rag = GeneratedRag.objects.get(filename=filename)
-    rag.finished_at = datetime.datetime.now()
-    rag.path = rag_filename
-    rag.lines = len(result_txt.splitlines())
-    rag.content = result_txt[0:145]
-    rag.save()
-
-    print(f"[+] modified rag finished_at {rag.pk}")
-
-    remove_file(filename=filename)
-
-
-def remove_file(filename):
-    print(f"[+] remove temp file {filename}")
-    os.remove(f"{documents_path}/{filename}")
-
-
+from dashboard.utils import save_file
 
 # Create your views here.
 def index_view(request):
@@ -60,20 +14,36 @@ def index_view(request):
     context = {}
     return render(request,template_name=template,context=context)
 
-
 def upload_files(request):
     files = request.FILES.getlist("files")
     #print(files)
 
     for idx,f in enumerate(files):
-        rag = GeneratedRag.objects.create(
-            filename=f.name
-        )
-        rag.save()
-        print(f"[+] save to database {f.name}, pk: {rag.pk}")
-        save_file(f,f.name)
+        if GeneratedRag.objects.filter(filename=f.name):
+            messages.error(request, f"{f.name} is already exist in the database")
+            print("[!] ERROR, this file is already exist in the database")
+            return redirect("index")
+        try:
+            rag = GeneratedRag.objects.create(
+                filename=f.name
+            )
+            rag.save()
+            file_bytes = f.read()
+            print(f"[+] save to database {f.name}, pk: {rag.pk}")
 
+            thread = threading.Thread(
+                target=save_file,
+                args=(file_bytes,f.name),
+                daemon=True
+            )
+            thread.start()
 
+            #process=multiprocessing.Process(target=save_file,args=(file_bytes,f.name),daemon=True)
+            #process.start()
+
+            #save_file(file_bytes,f.name)
+        except Exception as e:
+            print(f"[!] ERROR when save file to db: {e}")
         #save_file(data=f,filename=str(idx)+"_"+f.name)
 
     messages.success(request,"File uploads and generate RAG is running in the background... Please wait")
@@ -93,11 +63,8 @@ def list_rag_view(request):
 def download_rag_view(request,pk):
     rag = GeneratedRag.objects.get(pk=pk)
     download_url = rag.path
-
     if not os.path.exists(download_url):
         return HttpResponse("File not found :(")
-
     file_handle = open(download_url,"rb")
-
     print(f"[+] downloaded path : {download_url}")
     return FileResponse(file_handle,as_attachment=True)

@@ -19,6 +19,10 @@ a {
     text-decoration: none !important;
 }
 
+.text-secondary {
+    color: var(--secondary-color) !important;
+}
+
 
 .custom-navbar {
   background-color: rgba(0, 0, 0, 0.65); /* közel fekete, 10%-os áttetszőség */
@@ -59,3 +63,27 @@ tags-checkbox {
     animation-fill-mode: forwards;
 }
 
+#### SHAKE IMAGE ANIMATION ########
+img {
+    animation: shakeZoom 6s infinite;
+}
+
+@keyframes shakeZoom {
+    0% { transform: scale(1); }
+
+    /* Vibráció + zoom rövid szakasz */
+    2%  { transform: scale(1.02) translate(1px, -5px); }
+    3%  { transform: scale(1.05) translate(-1px, 3px); }
+    4%  { transform: scale(1.03) translate(1px, 5px); }
+    5%  { transform: scale(1.06) translate(-1px, -3px); }
+    6%  { transform: scale(1.05) translate(0px, 0px); }
+
+    /* Vissza nyugalmi állapotba */
+    10% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+.shake-img {
+    animation: shakeZoom 6s infinite;
+}
+#####################################
