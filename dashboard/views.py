@@ -16,7 +16,13 @@ def save_file(data,filename):
     with open (p,"wb+") as document:
         for chunk in data.chunks():
             document.write(chunk)
-    generate_rag(filename=filename)
+
+    threading.Thread(
+        target=generate_rag,
+        args=(filename),
+        daemon=True
+    ).start()
+    #generate_rag(filename=filename)
 
 def generate_rag(filename):
     #print("generate RAG",file)
@@ -65,11 +71,8 @@ def upload_files(request):
         )
         rag.save()
         print(f"[+] save to database {f.name}, pk: {rag.pk}")
-        threading.Thread(
-            target=save_file,
-            args=(f,f.name),
-            daemon=True
-        ).start()
+        save_file(f,f.name)
+
 
         #save_file(data=f,filename=str(idx)+"_"+f.name)
 
