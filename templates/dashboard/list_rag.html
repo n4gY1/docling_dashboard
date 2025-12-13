@@ -51,7 +51,7 @@
         {% for rag in rags_not_success %}
             <div class="col-lg-3 col-md-4 col-xs-6 my-2 d-flex align-items-stretch">
                 <div class="card bg-dark text-light w-100">
-                    <h5 class="card-header"><a href="{% url 'download_rag' rag.pk %}" class="text-warning no-decoration" >{{rag.filename}}</a> </h5>
+                    <h5 class="card-header">{{rag.filename}}</h5>
                     <div class="card-body">
                         <p class="card-text text-secondary">
                             {{rag.content}}
