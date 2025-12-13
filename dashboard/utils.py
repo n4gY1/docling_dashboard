@@ -22,9 +22,12 @@ def generate_rag(filename):
 
     print("generate RAG",filename)
     source = DOCUMENT_PATH + filename
-    converter = DocumentConverter()
-    result = converter.convert(source)
-    result_txt = result.document.export_to_markdown()
+    try:
+        converter = DocumentConverter()
+        result = converter.convert(source)
+        result_txt = result.document.export_to_markdown()
+    except Exception as e:
+        raise str(e)
     rag_filename = DOCUMENT_PATH + "RAG/" + filename + ".md"
     rag = GeneratedRag.objects.get(filename=filename)
 
