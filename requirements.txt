@@ -1,5 +1,10 @@
 docling
 django
+easyocr
+torch
+torchvision
+torchaudio
+onnxruntime
 #ha nincs cuda driver csak cpu
 #pip uninstall torch torchvision torchaudio -y
 #pip install torch --index-url https://download.pytorch.org/whl/cpu
