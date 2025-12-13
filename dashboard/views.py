@@ -71,7 +71,7 @@ def download_rag_view(request,pk):
 
 def delete_rag_view(request,pk):
     rag = GeneratedRag.objects.get(pk=pk)
-    if os.path.exists(rag.path):
+    if if rag.path is not None and os.path.exists(rag.path):
         os.remove(rag.path)
     tmp_path = "/static/documents/" + rag.filename
     if os.path.exists(tmp_path):
