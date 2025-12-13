@@ -4,6 +4,11 @@
 <p align="center">Upload ppt, docx, pdf, excel etc files and download Docling generated files.</p>
 </p>
 
+<p align="center">
+  <img src="sample.gif" />
+</p>
+
+
 <p>
   Run docker or python virtual env. Required cuda and nvidia driver
 </p>
