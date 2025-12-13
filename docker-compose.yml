@@ -1,0 +1,16 @@
+services:
+  docling-dashboard:
+    build: .
+    container_name: docling-dashboard
+    command: "python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - /srv/dockerfiles/docling_dashboard/app:/app
+    ports:
+      - "8000:8000"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
