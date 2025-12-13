@@ -1,6 +1,8 @@
 import datetime
 
 import os
+import zipfile
+from io import BytesIO
 
 from docling.document_converter import DocumentConverter
 
@@ -52,5 +54,19 @@ def generate_rag(filename):
 def remove_file(filename):
     print(f"[+] remove temp file {filename}")
     os.remove(f"{DOCUMENT_PATH}/{filename}")
+
+
+
+###### ZIP
+def create_rag_zip():
+    rag_dir = DOCUMENT_PATH + "RAG/"
+    buffer = BytesIO()
+    with zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        for filename in os.listdir(rag_dir):
+            file_path = os.path.join(rag_dir, filename)
+            if os.path.isfile(file_path):
+                zipf.write(file_path, filename)
+    buffer.seek(0)
+    return buffer
 
 

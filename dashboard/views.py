@@ -1,3 +1,4 @@
+import datetime
 import multiprocessing
 import os
 import threading
@@ -6,7 +7,8 @@ from django.contrib import messages
 from django.http import FileResponse, HttpResponse
 from django.shortcuts import render, redirect
 from dashboard.models import GeneratedRag
-from dashboard.utils import save_file
+from dashboard.utils import save_file, create_rag_zip
+
 
 # Create your views here.
 def index_view(request):
@@ -80,6 +82,15 @@ def delete_rag_view(request,pk):
 
     messages.success(request, "RAG AND temp File deleted successfully.")
     return redirect("list_rag")
+
+def export_zip_view(request):
+    buffer = create_rag_zip()
+    response = HttpResponse(buffer,content_type="application/zip")
+    now = datetime.datetime.now()
+    str_now = now.strftime("%Y-%m-%d-%S")
+    file_name = str_now + "-RAGEXPORT.zip"
+    response['Content-Disposition'] = f'attachment; filename={file_name}'
+    return response
 
 
 

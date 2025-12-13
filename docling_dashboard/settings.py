@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from pathlib import Path
 
+from site_config import SITE_CONFIG
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,6 +28,7 @@ SECRET_KEY = 'django-insecure-7-bdjgk_kb18%ivqphk8+pqrqdf%hap6xz1imvtl8o8)_3@6yu
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
 
 
 # Application definition
@@ -66,6 +69,9 @@ TEMPLATES = [
             ],
         },
     },
+]
+TEMPLATES[0]["OPTIONS"]["context_processors"] += [
+    "docling_dashboard.context_processors.site_config",
 ]
 
 WSGI_APPLICATION = 'docling_dashboard.wsgi.application'
