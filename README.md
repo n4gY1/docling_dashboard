@@ -15,4 +15,12 @@
 <p>
   Modify title, navbar home and footbar text with site_config.py
 </p>
+<h1>Install</h1>
+
+```bash
+git clone https://github.com/n4gy1/docling_dashboard
+cd docling_dashboard
+sudo docker compose build
+sudo docker compose up -d
+```
 
