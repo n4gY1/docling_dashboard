@@ -4,6 +4,10 @@
 <p align="center">Upload ppt, docx, pdf, excel etc files and download Docling generated files.</p>
 </p>
 
+# Convert pdf, docx, doc, ppt, excel to txt / md
+## AI RAG - convert your document to AI knowledge RAG format
+This django dashboard use docling library, convert your documents to AI RAG format for your AI model
+## Preview
 <p align="center">
   <img src="sample.gif" />
 </p>
@@ -13,8 +17,18 @@
   Run docker or python virtual env. Required cuda and nvidia driver
 </p>
 <p>
-  Modify title, navbar home and footbar text with site_config.py
+  Modify title, navbar home and footbar text with <strong>site_config.py</strong>
 </p>
+
+```bash
+SITE_CONFIG = {
+    "title": "DOCLING RAG DASHBOARD",
+    "footer_title": "DOCLING RAG DASHBOARD created by n4gY1",
+    "main_menu": "DOCLING RAG DASHBOARD"
+}
+```
+
+
 <h1>Install</h1>
 
 ```bash
