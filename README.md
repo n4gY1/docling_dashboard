@@ -19,8 +19,18 @@
 
 ```bash
 git clone https://github.com/n4gy1/docling_dashboard
+
 cd docling_dashboard
+
 sudo docker compose build
 sudo docker compose up -d
+
 ```
+
+<h4>Web server (django) running <strong>http://localhost:8000</strong> or <strong>http://serverip:8000</strong></h4>
+
+
+<h3>--Required nvidia gpu--</h3>
+
+
 
