@@ -1,9 +1,9 @@
-import datetime
 
 import os
 import zipfile
 from io import BytesIO
 
+from django.utils import timezone
 from docling.document_converter import DocumentConverter
 
 from dashboard.models import GeneratedRag
@@ -18,9 +18,13 @@ def save_file(data,filename):
         generate_rag(filename=filename)
     except Exception as e:
         print(f"[!] ERROR when upload the file to the documents directory, {e}")
+        rag = GeneratedRag.objects.get(filename=filename)
+        rag.errors = str(e)
+        rag.save()
     #generate_rag(filename=filename)
 
 def generate_rag(filename):
+    error = ""
 
     print("generate RAG",filename)
     source = DOCUMENT_PATH + filename
@@ -29,6 +33,7 @@ def generate_rag(filename):
         result = converter.convert(source)
         result_txt = result.document.export_to_markdown()
     except Exception as e:
+        error = str(e)
         raise str(e)
     rag_filename = DOCUMENT_PATH + "RAG/" + filename + ".md"
     rag = GeneratedRag.objects.get(filename=filename)
@@ -38,10 +43,11 @@ def generate_rag(filename):
             document.write(result_txt)
         print(f"[+] {rag_filename} RAG is saved")
 
-        rag.finished_at = datetime.datetime.now()
+        rag.finished_at = timezone.now()
         rag.path = rag_filename
         rag.lines = len(result_txt.splitlines())
         rag.content = result_txt[0:145]
+        rag.errors = error
         rag.save()
         print(f"[+] modified rag finished_at {rag.pk}")
 
