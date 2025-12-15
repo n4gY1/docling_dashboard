@@ -2,7 +2,7 @@ services:
   docling-dashboard:
     build: .
     container_name: docling-dashboard
-    command: "python manage.py runserver 0.0.0.0:8000"
+    command: "python manage.py migrate ; python manage.py makemigrations ; python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/app
     ports:
